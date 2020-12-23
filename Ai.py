@@ -35,8 +35,18 @@ def listener():
         i=0
         while(i<=10):
             print('I am Listing......') 
-            sr.pause_threshold = 1
-            audio = sr.listen(m,timeout=2,phrase_time_limit=8)
+            k=4
+            while(k<=10):
+                sr.pause_threshold = 1
+                audio = sr.listen(m,timeout=2,phrase_time_limit=4)
+                try:
+                 query = sr.recognize_google(audio,language='en-In')
+                 if(query==""):
+                     pass
+                 else:
+                     k=11
+                except:
+                    pass
             try:
                 query = sr.recognize_google(audio,language='en-In')
                 print(query)
@@ -53,7 +63,7 @@ def listener():
         return query    
 
 def start(command):
-    start.driver = webdriver.Chrome(executable_path="D:\Sourav\Python\Chrome\chromedriver.exe")
+    start.driver = webdriver.Chrome('D:\Sourav\Python\Chrome\chromedriver.exe', chrome_options=options)
     start.driver.get('https://www.youtube.com/results?search_query='+command.replace(" ", "+"))
     start.driver.find_element_by_id("img").click()
     #video = start.driver.find_element_by_id('movie_player')
@@ -75,7 +85,7 @@ def sikandar():
             song = command.replace('play', '')
             talk('playing ' + song)
             start(song)
-        elif 'roko' in command:
+        elif any(c in command for c in ['stop','roko','ruko','Roko','baskr','chupp']):
             pares()
         elif 'dusra' in command:
             another()
